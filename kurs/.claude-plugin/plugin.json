@@ -1,0 +1,9 @@
+{
+  "name": "kurs",
+  "version": "0.1.0",
+  "description": "Claude Code-kurset som en mod: fem deler i et panel, eksempelprompter med ett trykk og oppgaver som krysser seg av selv.",
+  "types": "./types/index.d.ts",
+  "author": {
+    "name": "Petter Hareim"
+  }
+}

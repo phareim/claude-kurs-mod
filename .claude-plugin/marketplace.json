@@ -1,0 +1,14 @@
+{
+  "name": "claude-kurs",
+  "description": "Claude Code-kurset til Petter Hareim, pakket som plugin.",
+  "owner": {
+    "name": "Petter Hareim"
+  },
+  "plugins": [
+    {
+      "name": "kurs",
+      "source": "./kurs",
+      "description": "Claude Code-kurset som en mod: fem deler i et panel, eksempelprompter med ett trykk og oppgaver som krysser seg av selv."
+    }
+  ]
+}

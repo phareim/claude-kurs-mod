@@ -2,6 +2,8 @@
 
 Skrevet 2026-10-04, etter første bygg. Gjelder kursinnholdet slik det ble levert (fem deler) og pluginen i `kurs/`.
 
+Oppdatert 2026-10-10: Del 1 har nå en sammenhengende øvelse med app, innlogging, lokal hemmelighet og en `PreToolUse`-hook mot direkte tilgang til `.env`. Sikkerhetsressursen forklarer begrensningene og peker videre til tillatelser og sandbox. Kurset har nå 31 oppgaver, hvorav 25 krysses av automatisk. Vurderingen under beskriver fortsatt førsteutgaven fra 2026-10-04.
+
 ## Kursinnholdet
 
 ### Styrker

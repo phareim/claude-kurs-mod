@@ -4,18 +4,20 @@ Et praktisk Claude Code-kurs i fem deler, pakket som en plugin til Claude Code. 
 
 - hver del med lesestoff og oppgaver, i rekkefølge
 - eksempelprompter som legges i promptfeltet med ett trykk
-- oppgaver som krysses av når kurset ser at de er gjort (25 av 28 oppgaver; tre merkes for hånd)
+- oppgaver som krysses av når kurset ser at de er gjort (25 av 31 oppgaver; seks merkes for hånd)
 - fremdrift som huskes mellom økter og overlever `/clear`
 
 | Del | Tema | Hands-on |
 |---|---|---|
-| 1 | Kom i gang med Claude Code | 20–30 min |
+| 1 | Kom i gang: app, innlogging, hemmeligheter og hooks | 40–60 min |
 | 2 | CLAUDE.md – prosjektets hukommelse | 20 min |
 | 3 | MCP – koble Claude til verktøyene dine | 25–35 min |
 | 4 | Subagenter | 30–40 min |
 | 5 | Agent Skills | 30–40 min |
 
 Vurderingen av kurset og pakkingen står i [docs/vurdering.md](docs/vurdering.md).
+
+I del 1 bygger deltakeren først en app, legger til innlogging og lagrer en lokal kursnøkkel i `.env` selv. Deretter lager og tester deltakeren en `PreToolUse`-hook som blokkerer direkte lesing og endring av `.env`. [Sikkerhetsressursen](kurs/ressurser/sikkerhet.md) har et ferdig eksempel og forklarer hva som krever tillatelser og sandbox i tillegg. Kurset leser ikke hemmeligheten og krysser ikke av beskyttelsen automatisk.
 
 ## For deltakere
 
@@ -39,7 +41,7 @@ Skriv `/kurs` i Claude. Da åpnes panelet. Klikk i panelet, eller trykk ctrl+x o
 | `/kurs ferdig`, `/kurs angre` | Merker oppgaven som gjort, eller angrer |
 | `/kurs status` | Fremdriften i alle delene |
 | `/kurs tekst` | Hele teksten til delen du er på |
-| `/kurs ressurser [navn]` | Tips, Agent View, feilsøking |
+| `/kurs ressurser [navn]` | Tips, Agent View, sikkerhet, feilsøking |
 | `/kurs panel` | Slår panelet av eller på. Av: kurset vises som tekst i samtalen |
 | `/kurs veiledning` | Slår av eller på at Claude får vite hvor du er i kurset |
 | `/kurs om` | Hva pluginen gjør og hvor den ligger |
@@ -52,10 +54,11 @@ Laster ikke panelet, virker resten likevel: delene er vanlig markdown i [`kurs/d
 ## For kursholder
 
 - **Prøv på en fremmed maskin først.** Hooks-modulen bygger på et API som er merket «early access» og kan endre seg mellom versjoner. Verifisert 2026-10-04 på Claude Code 2.1.289 i terminal, lastet med `--plugin-dir`.
+- **Sikkerhetsøvelsen i del 1.** Lagt til 2026-10-10. Hook-eksempelet er sjekket med 44 syntetiske verktøykall; plugin-validering og fem plugin-tester består på Claude Code 2.1.296. Selve deltakerøvelsen med innlogging og aktiv hook er ennå ikke prøvd ende til ende i en interaktiv økt.
 - **Installasjon via marketplace** er satt opp (`.claude-plugin/marketplace.json`), men ikke prøvd ende til ende: `claude plugin marketplace add phareim/claude-kurs-mod`, så `claude plugin install kurs@claude-kurs`. Repoet er privat, så deltakerne må ha tilgang, eller repoet må gjøres offentlig.
 - **Det kurset ser.** Kommandoer deltakeren kjører (`/init`, `/mcp`, `/clear` …), verktøy Claude bruker (Write, Bash, Agent, MCP-verktøy), skills som lastes, og filer i prosjektet (`CLAUDE.md`, `.claude/rules/`, `.claude/agents/`, `.claude/skills/`). Alt lagres lokalt hos deltakeren. Du har ingen samlet oversikt over gruppa.
 - **Skjult merknad.** Når deltakeren bytter oppgave, får Claude én linje om hvilken del og oppgave det gjelder. Det gjør at «jeg står fast» gir et relevant svar. `/kurs veiledning` slår det av.
-- **Tidsbruk.** Hands-on-delene summerer til 2–2¾ time. Resten av en femtimers dag er gjennomgang før hver del og pauser.
+- **Tidsbruk.** Hands-on-delene summerer til 2 timer og 25 minutter til 3 timer og 15 minutter. Resten av en femtimers dag er gjennomgang før hver del og pauser.
 
 ## Endre kursinnholdet
 
@@ -93,7 +96,7 @@ Reglene for automatisk avkryssing står i `kurs/hooks/sjekk.ts`, med oppgave-id 
 kurs/                             pluginen
   .claude-plugin/plugin.json
   deler/del-1.md … del-5.md       kursteksten
-  ressurser/                      tips, Agent View, feilsøking
+  ressurser/                      tips, Agent View, sikkerhet, feilsøking
   hooks/register.tsx              panelet, /kurs, koblingen til Claude Code
   hooks/les.ts                    leser markdown til avsnitt og oppgaver
   hooks/sjekk.ts                  hva som krysser av hvilken oppgave
@@ -118,6 +121,7 @@ Anthropics dokumentasjon for mod-systemet kurset bygger på (lenker sjekket 2026
 claude plugin validate kurs       # manifest og hooks slik motoren leser dem
 claude plugin test kurs           # testene
 node scripts/sjekk-innhold.mjs    # oppgave-id-er i teksten mot reglene
+node scripts/sjekk-sikkerhet.mjs  # hook-eksempelet med syntetiske verktøykall
 tsc -p kurs                       # typesjekk; krever at pluginen er lastet én gang
 ```
 

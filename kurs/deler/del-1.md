@@ -1,7 +1,7 @@
 ---
 del: 1
 tittel: Kom i gang med Claude Code
-tid: 20–30 minutter
+tid: 40–60 minutter
 ---
 
 ## Hva du nettopp har lært
@@ -47,6 +47,16 @@ Opprett et React-prosjekt med Vite. Jeg vil lage verdens smidigste gjøremålsli
 Sett opp et API med Python og Flask som henter bedriftsdata fra Brønnøysundregistrenes offentlige API (https://data.brreg.no/enhetsregisteret/api/enheter). Lag et enkelt brukergrensesnitt som viser resultatene.
 ```
 
+## La Claude implementere
+<!-- oppgave: implementer -->
+<!-- hint: Gi Claude en oppgave som endrer filer i normal modus. Oppgaven krysses av når Claude skriver eller endrer en fil. -->
+
+Få en første versjon av appen til å fungere før du legger til innlogging. Be Claude lage hovedsiden og prøv den i nettleseren.
+
+```prompt
+Lag hovedsiden med et toppfelt, en listevisning og et skjema for å legge til nye elementer. Gi den et ryddig og moderne utseende.
+```
+
 ## Utforsk kommandoene
 <!-- oppgave: snarveier -->
 <!-- hint: Dette kan ikke kurset se. Prøv hver snarvei én gang og merk oppgaven som gjort selv med «/kurs ferdig». -->
@@ -65,18 +75,57 @@ Prøv de viktigste snarveiene mens du jobber:
 Bytt til planleggingsmodus («plan mode») med Shift+Tab og be Claude analysere og planlegge før den implementerer. Dette er særlig nyttig for større endringer.
 
 ```prompt
-Jeg vil legge til brukerautentisering i appen min. Analyser kodebasen og lag en plan for hvordan dette kan implementeres.
+Jeg vil legge til innlogging og utlogging i appen min, og beskytte én side eller ett API-endepunkt. Analyser kodebasen og lag en plan med en etablert autentiseringsløsning som passer teknologien. Forklar hvilke hemmeligheter løsningen trenger, og hvordan vi kan teste at tilgangen faktisk er beskyttet.
 ```
 
-## La Claude implementere
-<!-- oppgave: implementer -->
-<!-- hint: Bytt ut av planleggingsmodus med Shift+Tab og gi Claude en oppgave som endrer filer. Oppgaven krysses av når Claude skriver eller endrer en fil. -->
+## Legg til innlogging
+<!-- oppgave: innlogging -->
+<!-- hint: Bytt tilbake til normal modus og be Claude følge planen. Prøv både innlogging, utlogging og tilgang uten å være innlogget. Merk oppgaven med /kurs ferdig når det virker. -->
 
-Bytt tilbake til normal modus og be Claude implementere basert på planen, eller gi den en ny oppgave.
+La Claude følge planen. Beskyttelsen må ligge på serveren; å skjule en knapp i nettleseren hindrer ikke noen i å kalle API-et direkte. Har du startet med bare en frontend, må planen også dekke en backend eller en autentiseringstjeneste.
 
 ```prompt
-Lag hovedsiden med et toppfelt, en listevisning og et skjema for å legge til nye elementer. Gi den et ryddig og moderne utseende.
+Implementer innlogging og utlogging etter planen, og beskytt siden eller API-endepunktet på serveren. Bruk plassholdere i .env.example for nødvendige miljøvariabler. Ikke opprett eller les .env, og ikke be meg lime inn hemmeligheter i samtalen. Gi meg en måte å teste både innlogget og uinnlogget tilgang på.
 ```
+
+Du er ferdig når du kan logge inn og ut, og siden eller endepunktet avviser tilgang uten innlogging. Hvis løsningen trenger en hemmelighet før den kan startes, gjør neste oppgave først og kom tilbake hit.
+
+## Lagre en hemmelighet lokalt
+<!-- oppgave: hemmelighet -->
+<!-- hint: Be Claude klargjøre .env.example og .gitignore. Opprett .env og fyll inn nøkkelen selv i editoren. Bruk bare en ny nøkkel for kursprosjektet. Merk oppgaven med /kurs ferdig etter at du har prøvd appen. -->
+
+Innlogging kan trenge en nøkkel til å signere økter, for eksempel `SECRET_KEY` i Flask eller et annet navn i løsningen du valgte. Hemmeligheten skal brukes på serveren og skal ikke sendes til nettleseren. Variabler med navn som `NEXT_PUBLIC_…` eller `VITE_…` er beregnet for nettleseren og passer ikke til hemmeligheter.
+
+```prompt
+Klargjør appen til å lese hemmelighetene den trenger fra miljøvariabler på serveren. Lag .env.example med tomme plassholdere og korte forklaringer. Sørg for at .env og .env.* er ignorert av Git, mens .env.example kan deles. Ikke les eller skriv .env. Forklar hvordan jeg selv genererer en ny nøkkel og fyller den inn lokalt, uten å vise nøkkelen i samtalen eller i logger.
+```
+
+1. Generer en ny nøkkel i en egen terminal eller hent en testnøkkel fra tjenesten du bruker. Bruk aldri en produksjonsnøkkel i kurset.
+2. Opprett `.env` selv i editoren og legg inn nøkkelen. Ikke be Claude gjøre dette eller kopier verdien inn i samtalen.
+3. Start appen fra din egen terminal og prøv innloggingen. Dersom en kommende terminalbeskyttelse hindrer Claude i å starte appen, kan du fortsatt starte den selv.
+4. Sjekk med `git check-ignore .env` at filen er ignorert, og med `git ls-files .env` at den ikke allerede er sporet. Den siste kommandoen skal ikke gi noe filnavn.
+
+`.gitignore` hindrer at en usporet fil legges til i Git ved vanlig bruk. Den hindrer ikke Claude i å lese filen. En regel i `CLAUDE.md` er også bare en instruksjon. Nå skal du legge på en teknisk sperre.
+
+## Beskytt .env med en hook
+<!-- oppgave: hook -->
+<!-- hint: Kjør /kurs ressurser sikkerhet for et ferdig eksempel. Legg hooken i prosjektets .claude/settings.json uten å overskrive andre innstillinger. Start Claude på nytt, sjekk /hooks og prøv blokkeringen med en ufarlig testfil. Merk oppgaven med /kurs ferdig når lesing og skriving stoppes og vanlige filer fortsatt virker. -->
+
+En hook er kode som Claude Code kjører når en bestemt hendelse skjer. `PreToolUse` kjøres før et verktøy får gjøre jobben og kan avvise kallet. Her skal du stoppe direkte lesing og endring av `.env` og `.env.*`, og også direkte terminalkommandoer som `cat .env`. `.env.example` skal fortsatt kunne leses og redigeres med filverktøyene.
+
+```prompt
+Les eksempelet i sikkerhetsressursen til kurs-pluginen (mappen står i /kurs om). Lag en PreToolUse-hook i prosjektet som blokkerer Read, Edit og Write mot .env og .env.*, med unntak av .env.example, og Bash-kommandoer som nevner .env. Bevar eksisterende innstillinger og hooks. Gi en kort norsk begrunnelse når noe blokkeres. Test scriptet med syntetiske verktøykall, uten å lese den ekte .env-filen. Forklar hva hooken dekker og hvilke omveier den ikke kan stoppe.
+```
+
+Kjør `/hooks` og kontroller at hooken er aktiv etter at du har startet Claude på nytt. Opprett selv en `.env.kurstest` med `KURS_TEST=ufarlig`, og prøv:
+
+```prompt
+Test beskyttelsen uten å omgå den: prøv å lese .env.kurstest med Read, endre den med Edit og overskrive den med Write. Prøv også cat .env.kurstest via Bash. Rapporter hvilke kall som blir blokkert. Les deretter .env.example med Read som kontroll. Ikke endre eller les den ekte .env-filen, og ikke fjern hooken.
+```
+
+Du er ferdig når alle fire forsøk mot testfilen avvises, filen fortsatt er uendret når du sjekker den selv, og `.env.example` fortsatt kan leses. Slett testfilen selv etterpå.
+
+**Grensen for øvelsen:** Hooken stopper disse direkte verktøykallene. Den er ikke en full sikkerhetsgrense: søk i hele prosjektet, andre verktøy eller et script som åpner filen uten å nevne `.env` i kommandoen kan gå utenom. For sterkere beskyttelse må også søkeverktøy og terminalprosesser begrenses med tillatelser og sandbox. Se `/kurs ressurser sikkerhet`. Bruk fortsatt bare ufarlige kursnøkler.
 
 ## Kontekststyring
 <!-- oppgave: kontekst -->

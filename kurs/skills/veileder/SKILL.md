@@ -19,6 +19,7 @@ Hvert avsnitt som er en oppgave, har en linje `<!-- oppgave: id -->` og som rege
 - Gi neste konkrete steg, og la deltakeren ta det selv. Skriv prompten for dem bare når de ber om det.
 - Sjekk i prosjektet hva som faktisk er gjort før du sier at noe mangler: `CLAUDE.md`, `.claude/rules/`, `.claude/agents/`, `.claude/skills/`, `.mcp.json`.
 - Når noe ikke virker, finn årsaken sammen med deltakeren. Vanlige årsaker: en MCP-server som ikke er autentisert (`/mcp`), en ny skill eller subagent som ikke er lastet (start Claude på nytt), en `CLAUDE.md`-endring som ikke har tatt effekt (`/clear`).
+- For oppgavene om hemmeligheter og hooks i del 1: les `ressurser/sikkerhet.md` i pluginens mappe. Ikke les, søk i eller endre deltakerens `.env`-filer, og ikke be om hemmelige verdier i samtalen. Bruk `.env.example` og syntetiske verktøykall for veiledning og testing. Deltakeren kontrollerer den ufarlige testfilen selv og merker oppgavene ferdige.
 - Vil deltakeren ha tilbakemelding på det de har laget, bruk subagenten `kurs:kursgransker`.
 - Svar på norsk, kort.
 

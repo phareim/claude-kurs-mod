@@ -14,9 +14,9 @@ Skills lagres som `SKILL.md`-filer, enten personlig (`~/.claude/skills/`) eller 
 
 ## Når er skills nyttige?
 
-- **Gjentakende oppgaver.** Committer du ofte kode, kjører en deploy eller skriver release notes, kan en skill gjøre det med én kommando: `/commit`, `/deploy`, `/release-notes`.
+- **Gjentakende oppgaver.** Committer du ofte kode, setter en app i produksjon eller skriver versjonsnotater, kan en skill gjøre det med én kommando: `/commit`, `/deploy`, `/release-notes`.
 - **Kodestandarder og konvensjoner.** En skill kan inneholde prosjektets kodestandarder, og Claude følger dem uten at du ber om det.
-- **Onboarding.** Skills som forklarer arkitekturen, vanlige oppgaver og konvensjoner hjelper nye utviklere raskere i gang.
+- **Opplæring.** Skills som forklarer arkitekturen, vanlige oppgaver og konvensjoner hjelper nye utviklere raskere i gang.
 
 Merker du at du ofte ber Claude om det samme, er det et tegn på at det bør bli en skill.
 
@@ -26,7 +26,7 @@ Merker du at du ofte ber Claude om det samme, er det et tegn på at det bør bli
 
 Vercel har en liste over de mest populære agent skills på [skills.sh](https://skills.sh).
 
-> Skills kan gjøre mye og kan utsette deg for prompt injection. Sjekk hvem som har laget en skill før du tar den i bruk.
+> Skills kan gjøre mye og kan utsette deg for instruksjonsinjeksjon. Sjekk hvem som har laget en skill før du tar den i bruk.
 
 1. Finn noen populære skills som du tror er nyttige i arbeidshverdagen din eller i prosjektet du bygger nå.
 2. Installer dem, og sjekk at de dukker opp når du skriver `/` i Claude.
@@ -34,7 +34,7 @@ Vercel har en liste over de mest populære agent skills på [skills.sh](https://
 Den mest populære skillen heter `find-skills`. Med den kan Claude selv finne en passende skill ut fra et behov:
 
 ```prompt
-Use /find-skills to help me find a skill to build diagrams
+Bruk /find-skills til å hjelpe meg med å finne en skill for å lage diagrammer.
 ```
 
 ## Bruk en skill
@@ -44,7 +44,7 @@ Use /find-skills to help me find a skill to build diagrams
 Bruk en skill du har installert i prosjektet ditt, for eksempel:
 
 ```prompt
-Use the /frontend-design skill to suggest visual improvements to my application
+Bruk skillen /frontend-design til å foreslå visuelle forbedringer i appen min.
 ```
 
 ## Lag din første skill
@@ -68,22 +68,22 @@ Innholdet i `.claude/skills/commit/SKILL.md`:
 ```markdown
 ---
 name: commit
-description: Create a well-structured git commit message.
+description: Lag en ryddig commit-melding i Git.
 disable-model-invocation: true
 ---
 
-Create a git commit for the current changes:
+Lag en commit i Git for de gjeldende endringene:
 
-1. Run git status and git diff to understand what changed
-2. Choose a commit type: feat / fix / docs / refactor / test / chore
-3. Write a concise commit message (max 72 chars first line)
-4. Stage relevant files and commit
+1. Kjør git status og git diff for å forstå hva som er endret
+2. Velg en commit-type: feat / fix / docs / refactor / test / chore
+3. Skriv en kort commit-melding (maks 72 tegn på første linje)
+4. Legg relevante filer i stagingområdet og opprett en commit
 ```
 
 Feltet `disable-model-invocation: true` hindrer Claude i å kjøre skillen på eget initiativ. Da kan bare du starte den, med `/commit`.
 
 ```prompt
-Create a project skill in .claude/skills/commit/SKILL.md that writes a well-structured git commit for the current changes. Only I should be able to invoke it.
+Lag en prosjektskill i .claude/skills/commit/SKILL.md som oppretter en ryddig commit i Git for de gjeldende endringene. Bare jeg skal kunne starte den.
 ```
 
 ## Kjør skillen din
@@ -98,8 +98,8 @@ Etter at du har lagret filen, kan du bruke skillen direkte:
 
 Flere ideer til skills du kan lage:
 
-- **Review** – går gjennom koden og gir tilbakemelding på kvalitet, sikkerhet og lesbarhet
-- **Refactor** – analyserer en fil eller modul og foreslår forbedringer
+- **Kodegjennomgang** – går gjennom koden og gir tilbakemelding på kvalitet, sikkerhet og lesbarhet
+- **Refaktorering** – analyserer en fil eller modul og foreslår forbedringer
 - **Dokumentasjon** – lager eller oppdaterer README ut fra koden
 - **Test** – skriver tester for en fil eller funksjon, kjører dem og fikser feil
 - **Oversettelse** – oversetter brukersynlig tekst i appen til andre språk
@@ -113,22 +113,22 @@ Vil du at en skill skal kjøre i en isolert subagent, uten å fylle hoveddialoge
 ```markdown
 ---
 name: codebase-analysis
-description: Deep analysis of the codebase architecture
+description: Grundig analyse av arkitekturen i kodebasen.
 context: fork
 agent: Explore
 ---
 
-Analyze the codebase thoroughly and report:
-1. Overall architecture
-2. Key patterns and conventions
-3. Potential improvements
+Analyser kodebasen grundig og rapporter:
+1. Overordnet arkitektur
+2. Viktige mønstre og konvensjoner
+3. Mulige forbedringer
 
 $ARGUMENTS
 ```
 
 Her er agenten satt til `Explore`, som ikke kan endre kode.
 
-`$ARGUMENTS` er teksten du skriver etter skill-navnet. Skriver du «Use the /codebase-analysis skill, but only on the auth module», blir «but only on the auth module» tilgjengelig som `$ARGUMENTS` inne i skillen.
+`$ARGUMENTS` er teksten du skriver etter skill-navnet. Skriver du «/codebase-analysis Analyser bare autentiseringsmodulen», blir «Analyser bare autentiseringsmodulen» tilgjengelig som `$ARGUMENTS` inne i skillen.
 
 ## Avansert: dynamisk kontekst
 <!-- oppgave: dynamisk bonus -->
@@ -139,44 +139,44 @@ Skills kan kjøre shell-kommandoer og sette resultatet inn i prompten. Det gir C
 ```markdown
 ---
 name: pr-review
-description: Review the current pull request
+description: Gå gjennom den gjeldende pull requesten.
 context: fork
 agent: general-purpose
 ---
 
-## Current changes
-- Diff: !`git diff main...HEAD`
-- Changed files: !`git diff --name-only main...HEAD`
+## Gjeldende endringer
+- Endringer: !`git diff main...HEAD`
+- Endrede filer: !`git diff --name-only main...HEAD`
 
-Review these changes and provide feedback on code quality, potential bugs, and improvements.
+Gå gjennom disse endringene og gi tilbakemelding på kodekvalitet, mulige feil og forbedringer.
 ```
 
 ## Bonus: skill og subagent sammen
 <!-- oppgave: sammen bonus -->
 <!-- hint: Lag .claude/agents/reviewer.md med et «skills:»-felt i frontmatter. Oppgaven krysses av når en subagent i prosjektet har det feltet. -->
 
-Lag en skill og en subagent som jobber sammen. For eksempel en subagent som har review-skillen over lastet på forhånd, slik at den følger prosjektets kvalitetskrav hver gang.
+Lag en skill og en subagent som jobber sammen. For eksempel en subagent som har skillen for kodegjennomgang over lastet på forhånd, slik at den følger prosjektets kvalitetskrav hver gang.
 
 I subagent-definisjonen (`.claude/agents/reviewer.md`):
 
 ```yaml
 ---
 name: reviewer
-description: Reviews code changes for quality and security. Use after making changes.
+description: Går gjennom kodeendringer for å vurdere kvalitet og sikkerhet. Bruk etter at kode er endret.
 tools: Read, Grep, Glob, Bash
 model: sonnet
 skills:
   - pr-review
 ---
 
-You are a senior code reviewer. Follow the review guidelines loaded from the `pr-review` skill.
-Report findings grouped by severity: critical, warning, suggestion.
+Du er en erfaren kodegransker. Følg retningslinjene for kodegjennomgang fra skillen `pr-review`.
+Rapporter funn gruppert etter alvorlighetsgrad: kritisk, advarsel, forslag.
 ```
 
 Nå kan du be Claude kjøre subagenten med naturlig språk:
 
 ```prompt
-Run the reviewer agent.
+Kjør subagenten reviewer.
 ```
 
 ## Veien videre

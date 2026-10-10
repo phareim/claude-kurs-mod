@@ -36,15 +36,15 @@ Be Claude sette opp prosjektet for deg. Beskriv hva du ønsker å lage og hvilke
 Noen eksempler på prompter:
 
 ```prompt
-Create a new Next.js project with TypeScript and Tailwind CSS. Set up the basic project structure for a kanban board application.
+Opprett et nytt Next.js-prosjekt med TypeScript og Tailwind CSS. Sett opp den grunnleggende prosjektstrukturen for en app med en kanban-tavle.
 ```
 
 ```prompt
-Initialize a React project with Vite. I want to build the smoothest todo list in existence, with animations and a clean UI.
+Opprett et React-prosjekt med Vite. Jeg vil lage verdens smidigste gjøremålsliste, med animasjoner og et ryddig brukergrensesnitt.
 ```
 
 ```prompt
-Set up a Python Flask API that fetches company data from the Brønnøysund public API (https://data.brreg.no/enhetsregisteret/api/enheter). Create a simple frontend that displays the results.
+Sett opp et API med Python og Flask som henter bedriftsdata fra Brønnøysundregistrenes offentlige API (https://data.brreg.no/enhetsregisteret/api/enheter). Lag et enkelt brukergrensesnitt som viser resultatene.
 ```
 
 ## Utforsk kommandoene
@@ -53,29 +53,29 @@ Set up a Python Flask API that fetches company data from the Brønnøysund publi
 
 Prøv de viktigste snarveiene mens du jobber:
 
-- **Shift+Tab** bytter mellom moduser (normal, auto-accept, plan mode)
+- **Shift+Tab** bytter mellom moduser (normal modus, automatisk godkjenning og planleggingsmodus)
 - **Esc** stopper Claude midt i en operasjon
-- **Esc Esc** åpner rewind-menyen
+- **Esc Esc** åpner menyen for å gå tilbake til et tidligere punkt
 - Skriv **?** i Claude for å se alle tastatursnarveier
 
-## Bruk plan mode
+## Bruk planleggingsmodus
 <!-- oppgave: plan -->
-<!-- hint: Trykk Shift+Tab til det står «plan mode» under prompten, og send en prompt. Oppgaven krysses av når du sender en prompt i plan mode, eller når Claude legger fram en plan. -->
+<!-- hint: Trykk Shift+Tab til det står «plan mode» under prompten, og send en prompt. Oppgaven krysses av når du sender en prompt i planleggingsmodus, eller når Claude legger fram en plan. -->
 
-Bytt til plan mode med Shift+Tab og be Claude analysere og planlegge før den implementerer. Dette er særlig nyttig for større endringer.
+Bytt til planleggingsmodus («plan mode») med Shift+Tab og be Claude analysere og planlegge før den implementerer. Dette er særlig nyttig for større endringer.
 
 ```prompt
-I want to add user authentication to my app. Analyze the current codebase and create a plan for how to implement this.
+Jeg vil legge til brukerautentisering i appen min. Analyser kodebasen og lag en plan for hvordan dette kan implementeres.
 ```
 
 ## La Claude implementere
 <!-- oppgave: implementer -->
-<!-- hint: Bytt ut av plan mode med Shift+Tab og gi Claude en oppgave som endrer filer. Oppgaven krysses av når Claude skriver eller endrer en fil. -->
+<!-- hint: Bytt ut av planleggingsmodus med Shift+Tab og gi Claude en oppgave som endrer filer. Oppgaven krysses av når Claude skriver eller endrer en fil. -->
 
 Bytt tilbake til normal modus og be Claude implementere basert på planen, eller gi den en ny oppgave.
 
 ```prompt
-Implement the main page with a header, a list view, and a form for adding new items. Make it look clean and modern.
+Lag hovedsiden med et toppfelt, en listevisning og et skjema for å legge til nye elementer. Gi den et ryddig og moderne utseende.
 ```
 
 ## Kontekststyring
@@ -95,7 +95,7 @@ Prøv `/clear`, `/compact` og `/rewind` underveis:
 Be Claude generere tester for koden den har skrevet, kjøre dem, og fikse eventuelle feil. Alt i samme sesjon.
 
 ```prompt
-Write tests for the code you just created. Run them and fix any failures.
+Skriv tester for koden du nettopp laget. Kjør dem og rett eventuelle feil.
 ```
 
-> **Tips fra Anthropic:** Å gi Claude verifiseringskriterier er det enkeltgrepet som forbedrer kvaliteten mest. Uten klare suksesskriterier er du den eneste feedback-loopen.
+> **Tips fra Anthropic:** Å gi Claude verifiseringskriterier er det enkeltgrepet som forbedrer kvaliteten mest. Uten klare suksesskriterier er det bare du som kan gi tilbakemelding på om resultatet er riktig.

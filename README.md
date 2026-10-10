@@ -107,6 +107,13 @@ docs/vurdering.md                 styrker, svakheter, forbedringer
 
 ## Utvikling
 
+Anthropics dokumentasjon for mod-systemet kurset bygger på (lenker sjekket 2026-10-10):
+
+- [Claude Code Mods – oversikt](https://code.claude.com/docs/en/plugins/mods/overview): hvordan mods fungerer og hvor de kan kjøre.
+- [Lag en mod](https://code.claude.com/docs/en/plugins/mods/create): hooks-modul, lasting, validering og omlasting under utvikling.
+- [Mods- og API-referanse](https://code.claude.com/docs/en/plugins/mods/reference): hendelser, API-metoder, UI-elementer og begrensninger.
+- [Fullstendige TypeScript-deklarasjoner](https://github.com/anthropics/claude-code/blob/main/mods/types/claude-code.d.ts): typer og eksempler for hendelser, metoder og elementer.
+
 ```bash
 claude plugin validate kurs       # manifest og hooks slik motoren leser dem
 claude plugin test kurs           # testene
@@ -114,4 +121,4 @@ node scripts/sjekk-innhold.mjs    # oppgave-id-er i teksten mot reglene
 tsc -p kurs                       # typesjekk; krever at pluginen er lastet én gang
 ```
 
-Typene til API-et legger Claude Code selv i `kurs/.claude-plugin/types/` første gang pluginen lastes med `--plugin-dir`. Mappen er ikke sjekket inn.
+Typene til API-et legger Claude Code selv i `kurs/.claude-plugin/types/` første gang pluginen lastes med `--plugin-dir`. Mappen er ikke sjekket inn. Deklarasjonene i `kurs/.claude-plugin/types/claude-code/index.d.ts` er fasiten for den installerte versjonen; dokumentasjonen og typene på GitHub kan gjelde en annen versjon.
